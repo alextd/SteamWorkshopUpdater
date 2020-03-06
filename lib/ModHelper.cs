@@ -14,8 +14,6 @@ namespace SteamWorkshopUploader
     {
         public string Name { get; }
         public string Preview { get; }
-        public string Description { get; set; }
-        public bool OriginalUploader { get; set; }
         public List<string> Tags;
 
         private PublishedFileId_t _publishedFileId = PublishedFileId_t.Invalid;
@@ -32,13 +30,12 @@ namespace SteamWorkshopUploader
 
         public string ContentFolder { get; }
 
-        public Mod ( string path, bool originalUploader = true )
+        public Mod ( string path )
         {
             if ( !Directory.Exists( path ) )
             {
                 throw new Exception( $"path '{path}' not found." );
             }
-            OriginalUploader = originalUploader;
             ContentFolder = path;
             Tags = new List<string>();
             Tags.Add("Mod");
@@ -98,8 +95,6 @@ namespace SteamWorkshopUploader
                         var meta = node.ChildNodes[j];
                         if ( meta.Name.ToLower() == "name" )
                             Name = meta.InnerText;
-                        if ( meta.Name.ToLower() == "description" )
-                            Description = meta.InnerText;
                         if ( meta.Name.ToLower() == "supportedversions" && Tags.Count == 1 )
                         {
                             for ( int k = 0; k < meta.ChildNodes.Count; k++ )
@@ -132,7 +127,7 @@ namespace SteamWorkshopUploader
 
         public override string ToString()
         {
-            return $"Name: {Name}\nPreview: {Preview}\nPublishedFileId: {PublishedFileId}\nDescription: {Description}";
+            return $"Name: {Name}\nPreview: {Preview}\nPublishedFileId: {PublishedFileId}";
         }
 
         private static string PathCombine( params string[] parts )

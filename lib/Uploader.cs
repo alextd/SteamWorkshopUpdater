@@ -137,12 +137,6 @@ namespace SteamWorkshopUploader
             SteamUGC.SetItemTitle( handle, mod.Name );
             SteamUGC.SetItemTags( handle, mod.Tags );
             SteamUGC.SetItemContent( handle, mod.ContentFolder );
-
-            if (!mod.OriginalUploader)
-                return;
-
-            //only the original uploader (i.e. not contributors) can do the following operations
-            SteamUGC.SetItemDescription(handle, mod.Description);
             if (mod.Preview != null)
                 SteamUGC.SetItemPreview(handle, mod.Preview);
             if (creating)
